@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Authorization': 'sk-4_4iZ1BnGwyWo9CUU19img'
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
           messages: [{role: 'user', content: msg}]
         })
       });
