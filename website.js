@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'sk-4_4iZ1BnGwyWo9CUU19img'
+          'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
         },
         body: JSON.stringify({
           model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
