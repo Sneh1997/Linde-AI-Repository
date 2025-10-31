@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
         },
         body: JSON.stringify({
-          model: 'aazure_ai/genailab-maas-DeepSeek-V3-0324',
+          model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
           messages: [{role: 'user', content: msg}]
         })
       });
