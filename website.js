@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call OpenAI ChatGPT API
     appendMessage('Bot', '<span style="color:#888;">Thinking...</span>');
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch('https://genailab.tcs.in/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
