@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kid Joy</title>
+  <link rel="stylesheet" href="website.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo"><span class="logo-icon" style="vertical-align:middle;display:inline-block;margin-right:.5em;">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+          <ellipse cx="18" cy="28" rx="8" ry="6" fill="#ffb6b9"/>
+          <circle cx="10" cy="10" r="3.5" fill="#ffe0ac"/>
+          <circle cx="18" cy="7" r="2.5" fill="#ffe0ac"/>
+          <circle cx="26" cy="10" r="3" fill="#ffe0ac"/>
+          <circle cx="30" cy="16" r="2" fill="#ffe0ac"/>
+        </svg>
+      </span><span class="logo-text">Kid Joy</span></h1>
+      <form id="globalSearchForm" style="display:flex;gap:.5em;align-items:center;max-width:400px;margin-left:auto;">
+        <input id="globalSearchInput" type="text" placeholder="Search kid products..." style="flex:1;padding:.5em;border-radius:6px;border:1px solid #e6e9ef;font-size:1rem;" />
+        <button type="submit" style="background:var(--accent);color:white;padding:.5em 1em;border:none;border-radius:6px;">Search</button>
+      </form>
+      <nav>
+        <a href="#home" class="tab-link" data-tab="home">Home</a>
+        <a href="#account" class="tab-link" data-tab="account">My Account</a>
+        <a href="#cart" class="tab-link" data-tab="cart" style="display:inline-flex;align-items:center;gap:.3em;">
+          <span style="display:inline-block;vertical-align:middle;">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="19" r="2" fill="#ffb6b9"/>
+              <circle cx="16" cy="19" r="2" fill="#ffb6b9"/>
+              <rect x="3" y="5" width="16" height="10" rx="2" fill="#ffe0ac" stroke="#ffb6b9" stroke-width="1.5"/>
+              <rect x="1" y="3" width="20" height="2" rx="1" fill="#ffb6b9"/>
+            </svg>
+          </span>Cart
+        </a>
+        <a href="#contact" class="tab-link" data-tab="contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <div id="globalSearchResult" contenteditable="true" style="max-width:960px;margin:0 auto;padding:1em;display:none;background:#fff6fb;border-radius:12px;box-shadow:0 1px 6px rgba(61,21,95,0.08);outline:none;"></div>
+
+  <main class="container" id="main">
+    <section id="home" class="tab-section">
+      <div class="hero">
+        <section id="product-search" class="preview">
+          <h3>Product Search by Image</h3>
+          <form id="imageSearchForm" style="display:flex;flex-direction:column;gap:1em;align-items:flex-start;">
+            <input id="imageInput" type="file" accept="image/*" style="margin-bottom:.5em;" />
+            <button type="submit">Search Product</button>
+          </form>
+          <div id="imagePreview" style="margin-top:1em;"></div>
+          <div id="searchResult" style="margin-top:1em;"></div>
+        </section>
+      </div>
+      <!-- Remove old chatbot section -->
+    </section>
+    <!-- Floating Chatbot Icon and Chat Window -->
+    <div id="chatbot-fab" style="position:fixed;bottom:32px;right:32px;z-index:1000;">
+      <button id="openChatbot" style="background:var(--accent);border:none;border-radius:50%;width:64px;height:64px;box-shadow:0 2px 8px rgba(61,21,95,0.12);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+        <span style="font-size:2rem;">💬</span>
+      </button>
+    </div>
+    <div id="chatbotWindow" style="display:none;position:fixed;bottom:110px;right:32px;width:340px;max-width:90vw;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(61,21,95,0.18);z-index:1001;">
+      <div style="padding:1rem;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-weight:600;color:var(--accent);font-size:1.1rem;">Chatbot</span>
+        <button id="closeChatbot" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;">&times;</button>
+      </div>
+      <div id="chatWindow" style="height:220px;overflow-y:auto;padding:1em;"></div>
+      <form id="chatForm" style="display:flex;gap:.5em;padding:1em 1em 1em 1em;">
+        <input id="chatInput" type="text" placeholder="Type your question..." style="flex:1;padding:.5em;border-radius:6px;border:1px solid #e6e9ef;" />
+        <button type="submit" style="background:var(--accent);color:white;padding:.5em 1em;border:none;border-radius:6px;">Send</button>
+      </form>
+    </div>
+    <section id="account" class="tab-section" style="display:none;">
+      <h2>My Account</h2>
+      <p>Manage your profile, view your product searches, and update your preferences.</p>
+      <ul>
+        <li>Profile details</li>
+        <li>Recent product searches</li>
+        <li>Settings & preferences</li>
+      </ul>
+    </section>
+    <section id="cart" class="tab-section" style="display:none;">
+      <h2>Cart</h2>
+      <p>Your selected kid products will appear here.</p>
+      <div style="color:#aaa;font-size:1.2em;">Cart is empty.</div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="container">
+      <small>Kid Joy — official site</small>
+    </div>
+  </footer>
+
+  <script src="website.js"></script>
+</body>
+</html>
