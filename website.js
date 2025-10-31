@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     appendMessage('Bot', '<span style="color:#888;">Thinking...</span>');
     try {
       const response = await fetch('https://genailab.tcs.in/v1/chat/completions', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'sk-4_4iZ1BnGwyWo9CUU19img'
