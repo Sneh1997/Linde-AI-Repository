@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
         },
         body: JSON.stringify({
-          model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
+          model: 'aazure_ai/genailab-maas-DeepSeek-V3-0324',
           messages: [{role: 'user', content: msg}]
         })
       });
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
           },
           body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
+            model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
             messages: [
               {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
               {role: 'user', content: `Given this image (base64): ${base64Image}, identify the kids product and provide detailed product information including product name, category, specification, ingredient list, marketing guidelines, and a sample product description.`}
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
           messages: [
             {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
             {role: 'user', content: `Give me detailed product information for: ${query}. Include product name, category, specification, ingredient list, marketing guidelines, and a sample product description.`}
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
         messages: [
           {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
           {role: 'user', content: `List 10 kids ${category} products with name, description, and specification. Format as HTML list.`}
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
               },
               body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
+                model: 'azure_ai/genailab-maas-DeepSeek-V3-0324',
                 messages: [
                   {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
                   {role: 'user', content: `List 10 more kids ${category} products with name, description, and specification. Format as HTML list.`}
