@@ -54,7 +54,31 @@
           <div id="searchResult" style="margin-top:1em;"></div>
         </section>
       </div>
-      <!-- Remove old chatbot section -->
+      <div class="category-icons" style="display:flex;gap:2em;justify-content:center;margin:2em 0;">
+        <div style="text-align:center;">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="20" width="24" height="16" rx="6" fill="#ffb6b9"/>
+            <rect x="18" y="12" width="12" height="8" rx="4" fill="#ffe0ac"/>
+            <rect x="20" y="8" width="8" height="4" rx="2" fill="#ffb6b9"/>
+          </svg>
+          <div style="margin-top:.5em;font-weight:600;color:#3d155f;">Clothing</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="24" cy="32" rx="12" ry="8" fill="#ffe0ac"/>
+            <path d="M24 12c6 0 12 8 12 12s-6 8-12 8-12-4-12-8 6-12 12-12z" fill="#ffb6b9"/>
+          </svg>
+          <div style="margin-top:.5em;font-weight:600;color:#3d155f;">Hair Care</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="14" fill="#ffb6b9"/>
+            <ellipse cx="24" cy="28" rx="8" ry="4" fill="#ffe0ac"/>
+            <ellipse cx="24" cy="20" rx="6" ry="3" fill="#ffe0ac"/>
+          </svg>
+          <div style="margin-top:.5em;font-weight:600;color:#3d155f;">Skin Care</div>
+        </div>
+      </div>
     </section>
     <!-- Floating Chatbot Icon and Chat Window -->
     <div id="chatbot-fab" style="position:fixed;bottom:32px;right:32px;z-index:1000;">
@@ -72,6 +96,13 @@
         <input id="chatInput" type="text" placeholder="Type your question..." style="flex:1;padding:.5em;border-radius:6px;border:1px solid #e6e9ef;" />
         <button type="submit" style="background:var(--accent);color:white;padding:.5em 1em;border:none;border-radius:6px;">Send</button>
       </form>
+    </div>
+    <!-- Product Detail Modal -->
+    <div id="productDetailModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(61,21,95,0.18);z-index:2000;align-items:center;justify-content:center;">
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(61,21,95,0.18);max-width:420px;width:90vw;padding:2em;position:relative;">
+        <button id="closeProductModal" style="position:absolute;top:1em;right:1em;background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;">&times;</button>
+        <div id="productDetailContent"></div>
+      </div>
     </div>
     <section id="account" class="tab-section" style="display:none;">
       <h2>My Account</h2>
