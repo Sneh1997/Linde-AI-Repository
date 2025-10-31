@@ -39,6 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       const botMsg = data.choices?.[0]?.message?.content || 'No response.';
       appendMessage('Bot', botMsg);
+
+       setTimeout(() => {
+      const fullText = document.getElementById('globalSearchResult').innerText;
+      const startMarker = 'Sample Product Description:';
+      const endMarker = 'Why Parents Love It:';
+      const start = fullText.indexOf(startMarker);
+      const end = fullText.indexOf(endMarker);
+      if (start !== -1 && end !== -1 && end > start) {
+        const description = fullText.substring(start + startMarker.length, end).trim();
+        document.getElementById('productDescriptionBox').innerText = description;
+      }
+    }, 500);
     } catch (err) {
       appendMessage('Bot', `<span style='color:red;'>Error: ${err.message}</span>`);
     }
