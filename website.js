@@ -73,56 +73,84 @@ document.addEventListener('DOMContentLoaded', () => {
       searchResult.innerHTML = '<span style="color:red;">Please upload an image first.</span>';
       return;
     }
-    searchResult.innerHTML = '<span style="color:#888;">Searching product with Gemini AI...</span>';
-    // Send image to backend Gemini API
-    const formData = new FormData();
-    formData.append('image', uploadedImageFile);
-    try {
-      const response = await fetch('/api/gemini-image-search', {
-        method: 'POST',
-        body: formData
-      });
-      if (!response.ok) throw new Error('AI search failed');
-      const data = await response.json();
-      // Expecting: { product, category, specification, ingredients, marketing, description, image_url }
-      searchResult.innerHTML = `<div style='display:flex;align-items:center;gap:1em;'>
-        <img src='${data.image_url || ''}' alt='Result' style='max-width:80px;border-radius:8px;border:1px solid #eee;' />
-        <div>
-          <strong>Product:</strong> ${data.product}<br>
-          <strong>Category:</strong> ${data.category}<br>
-          <strong>Product Specification:</strong> ${data.specification}<br>
-          <strong>Ingredient List:</strong> ${data.ingredients}<br>
-          <strong>Marketing Guidelines:</strong> ${data.marketing}<br>
-          <strong>Sample Product Description:</strong> ${data.description}
-        </div>
-      </div>`;
-    } catch (err) {
-      searchResult.innerHTML = `<span style='color:red;'>Error: ${err.message}</span>`;
-    }
+    searchResult.innerHTML = '<span style="color:#888;">Fetching product details from ChatGPT...</span>';
+    // Convert image to base64
+    const reader = new FileReader();
+    reader.onload = async function(ev) {
+      const base64Image = ev.target.result;
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
+          },
+          body: JSON.stringify({
+            model: 'gpt-3.5-turbo',
+            messages: [
+              {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
+              {role: 'user', content: `Given this image (base64): ${base64Image}, identify the kids product and provide detailed product information including product name, category, specification, ingredient list, marketing guidelines, and a sample product description.`}
+            ]
+          })
+        });
+        if (!response.ok) throw new Error('ChatGPT API error');
+        const data = await response.json();
+        const botMsg = data.choices?.[0]?.message?.content || '';
+        if (!botMsg || botMsg.toLowerCase().includes('no product') || botMsg.trim().length < 10) {
+          searchResult.innerHTML = `<span style='color:red;'>Please check product that you entered.</span>`;
+        } else {
+          searchResult.innerHTML = `<div style='background:#fff6fb;border-radius:12px;padding:1em;box-shadow:0 1px 6px rgba(61,21,95,0.08);'>${botMsg.replace(/\n/g,'<br>')}</div>`;
+        }
+      } catch (err) {
+        searchResult.innerHTML = `<span style='color:red;'>Error: ${err.message}</span>`;
+      }
+    };
+    reader.readAsDataURL(uploadedImageFile);
   });
   // Global search logic
   const globalSearchForm = document.getElementById('globalSearchForm');
   const globalSearchInput = document.getElementById('globalSearchInput');
   const globalSearchResult = document.getElementById('globalSearchResult');
-  globalSearchForm.addEventListener('submit', function(e) {
+  const productDetailModal = document.getElementById('productDetailModal');
+  const productDetailContent = document.getElementById('productDetailContent');
+  const closeProductModal = document.getElementById('closeProductModal');
+  closeProductModal.addEventListener('click', () => {
+    productDetailModal.style.display = 'none';
+  });
+  globalSearchForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const query = globalSearchInput.value.trim();
     if (!query) return;
-    // Simulate search result
     globalSearchResult.style.display = '';
-    globalSearchResult.innerHTML = `<div style='background:#fff6fb;border-radius:12px;padding:1em;box-shadow:0 1px 6px rgba(61,21,95,0.08);'>
-      <strong>Search results for:</strong> <span style='color:var(--accent);'>${query}</span><br><br>
-      <img src='https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=200&q=80' alt='Baby Product' style='max-width:80px;border-radius:8px;border:1px solid #eee;margin-right:1em;' />
-      <span>
-        <strong>Product:</strong> Baby Bottle<br>
-        <strong>Category:</strong> Feeding<br>
-        <strong>Product Specification:</strong> BPA-free, anti-colic, 250ml capacity<br>
-        <strong>Ingredient List:</strong> BPA-free plastic, silicone nipple<br>
-        <strong>Marketing Guidelines:</strong> Emphasize safety, ease of cleaning, and comfort for babies. Use reassuring language and clean visuals.<br>
-        <strong>Sample Product Description:</strong> "The Kid Joy Baby Bottle is designed for comfort and safety, featuring an anti-colic system and BPA-free materials. Perfect for feeding your baby with peace of mind."
-      </span>
-    </div>`;
-    setTimeout(() => { globalSearchResult.scrollIntoView({behavior:'smooth'}); }, 100);
+    globalSearchResult.innerHTML = `<span style='color:#888;'>Fetching product details from ChatGPT...</span>`;
+    // Fetch product details from ChatGPT (kids products only)
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
+            {role: 'user', content: `Give me detailed product information for: ${query}. Include product name, category, specification, ingredient list, marketing guidelines, and a sample product description.`}
+          ]
+        })
+      });
+      if (!response.ok) throw new Error('ChatGPT API error');
+      const data = await response.json();
+      const botMsg = data.choices?.[0]?.message?.content || '';
+      if (!botMsg || botMsg.toLowerCase().includes('no product') || botMsg.trim().length < 10) {
+        globalSearchResult.innerHTML = `<span style='color:red;'>Please check product that you entered.</span>`;
+      } else {
+        globalSearchResult.innerHTML = `<div style='background:#fff6fb;border-radius:12px;padding:1em;box-shadow:0 1px 6px rgba(61,21,95,0.08);'>${botMsg.replace(/\n/g,'<br>')}</div>`;
+      }
+      setTimeout(() => { globalSearchResult.scrollIntoView({behavior:'smooth'}); }, 100);
+    } catch (err) {
+      globalSearchResult.innerHTML = `<span style='color:red;'>Error: ${err.message}</span>`;
+    }
   });
   // Tab navigation logic
   const tabLinks = document.querySelectorAll('.tab-link');
@@ -152,6 +180,79 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
       }
+    });
+  });
+  // Category icons click logic
+  function fetchCategoryProducts(category, container) {
+    container.innerHTML = `<span style='color:#888;'>Fetching ${category} products from ChatGPT...</span>`;
+    fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
+          {role: 'user', content: `List 10 kids ${category} products with name, description, and specification. Format as HTML list.`}
+        ]
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      const botMsg = data.choices?.[0]?.message?.content || '';
+      if (!botMsg || botMsg.toLowerCase().includes('no product') || botMsg.trim().length < 10) {
+        container.innerHTML = `<span style='color:red;'>Please check category or try again.</span>`;
+      } else {
+        container.innerHTML = `<div style='background:#fff6fb;border-radius:12px;padding:1em;box-shadow:0 1px 6px rgba(61,21,95,0.08);'>${botMsg.replace(/\n/g,'<br>')}</div><button id='moreBtn' style='margin-top:1em;'>More</button>`;
+        const moreBtn = container.querySelector('#moreBtn');
+        if (moreBtn) {
+          moreBtn.addEventListener('click', () => {
+            fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer sk-4_4iZ1BnGwyWo9CUU19img'
+              },
+              body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [
+                  {role: 'system', content: 'You are a product expert for kids products. Only return information about kids products.'},
+                  {role: 'user', content: `List 10 more kids ${category} products with name, description, and specification. Format as HTML list.`}
+                ]
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              const moreMsg = data.choices?.[0]?.message?.content || '';
+              if (!moreMsg || moreMsg.toLowerCase().includes('no product') || moreMsg.trim().length < 10) {
+                moreBtn.insertAdjacentHTML('beforebegin', `<span style='color:red;'>No more products found.</span>`);
+              } else {
+                moreBtn.insertAdjacentHTML('beforebegin', `<div style='background:#fff6fb;border-radius:12px;padding:1em;box-shadow:0 1px 6px rgba(61,21,95,0.08);margin-top:1em;'>${moreMsg.replace(/\n/g,'<br>')}</div>`);
+              }
+            });
+          });
+        }
+      }
+    });
+  }
+  // Add click listeners to category icons
+  document.querySelectorAll('.category-icons > div').forEach((iconDiv, idx) => {
+    const categories = ['clothing', 'hair care', 'skin care'];
+    iconDiv.style.cursor = 'pointer';
+    iconDiv.addEventListener('click', function() {
+      const main = document.getElementById('main');
+      let resultContainer = document.getElementById('categoryResult');
+      if (!resultContainer) {
+        resultContainer = document.createElement('div');
+        resultContainer.id = 'categoryResult';
+        resultContainer.style.margin = '2em auto';
+        resultContainer.style.maxWidth = '700px';
+        main.appendChild(resultContainer);
+      }
+      fetchCategoryProducts(categories[idx], resultContainer);
+      resultContainer.scrollIntoView({behavior:'smooth'});
     });
   });
 });
