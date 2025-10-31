@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     reader.onload = async function(ev) {
       const base64Image = ev.target.result;
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('https://genailab.tcs.in/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     globalSearchResult.innerHTML = `<span style='color:#888;'>Fetching product details from ChatGPT...</span>`;
     // Fetch product details from ChatGPT (kids products only)
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch('https://genailab.tcs.in/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Category icons click logic
   function fetchCategoryProducts(category, container) {
     container.innerHTML = `<span style='color:#888;'>Fetching ${category} products from ChatGPT...</span>`;
-    fetch('https://api.openai.com/v1/chat/completions', {
+    fetch('https://genailab.tcs.in/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const moreBtn = container.querySelector('#moreBtn');
         if (moreBtn) {
           moreBtn.addEventListener('click', () => {
-            fetch('https://api.openai.com/v1/chat/completions', {
+            fetch('https://genailab.tcs.in/v1/chat/completions', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
